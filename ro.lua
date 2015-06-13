@@ -27,17 +27,17 @@
 --
 -- -----------------------------------------------------------------------------
 local LOGIN_PORT = 6900;
-local CHAR_PORT = 5121;
-local MAP_PORT = 6121;
+local CHAR_PORT = 6121;
+local MAP_PORT = 5121;
 
 -- Top level dissector.
 local ro = Proto("ro", "Ragnarok Online"); -- [ro]
 dissectors = DissectorTable.new("ro.port", "ro.port");
 
 -- Individual dissectors.
-dofile("RO/login.lua");
-dofile("RO/map.lua");
-dofile("RO/char.lua");
+dofile("/RO/login.lua");
+dofile("/RO/map.lua");
+dofile("/RO/char.lua");
 
 -- Retrieve sub-dissectors.
 --local login_dissect = dissectors:get_dissector("login");
@@ -54,6 +54,6 @@ function ro.dissector(buf, pkt, tree) -- Don't dissect, let the sub-dissectors w
 end
 
 local tcpt = DissectorTable.get( "tcp.port" );
-tcpt:add(LOGIN_PORT, dissectors.get_dissector(6900));
-tcpt:add(CHAR_PORT, dissectors.get_dissector(5121));
-tcpt:add(MAP_PORT, dissectors.get_dissector(6121));
+tcpt:add(LOGIN_PORT, dissectors:get_dissector(6900));
+tcpt:add(CHAR_PORT, dissectors:get_dissector(6121));
+tcpt:add(MAP_PORT, dissectors:get_dissector(5121));

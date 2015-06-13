@@ -21,7 +21,7 @@ local f_gender     = ProtoField.uint8("ro.login.gender", "Gender"); table.insert
 local f_refusal    = ProtoField.uint8("ro.login.refusal", "Refusal Reason"); table.insert(ro.fields, f_refusal);
 
 -- Character Server List by login Server.
-local ro_server = Proto("ro.login.server", "Character Server"); -- [ro.login.server]
+local ro_server = Proto("ro.login.server", "Character Server Record"); -- [ro.login.server]
 local f_server_addr = ProtoField.ipv4("ro.login.server.addr", "Address");
 local f_server_port = ProtoField.uint16("ro.login.server.port", "Port");
 local f_server_name = ProtoField.string("ro.login.server.name", "Name");
