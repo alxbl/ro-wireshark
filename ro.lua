@@ -15,19 +15,6 @@
 
 -- Disclaimer: I am Lua noob.
 
--- -----------------------------------------------------------------------------
--- Wireshark Dissector for Ragnarok Online Network Protocol
--- -----------------------------------------------------------------------------
--- Protocol Definition.
---local msg_handlers = {}; -- Type -> Dissector
---local msg_types = {};    -- Type -> String
-
---local ro = Proto("ro", "Ragnarok Online"); -- [ro]
-dofile("G:/dev/re/ro/dissect/login.lua")
-
---local ro_char = Proto("ro.char", "Char Server"); -- [ro.char]
---local ro_map = Proto("ro.map", "Map Server"); -- [ro.map]
-
 -- Base Packet Format ----------------------------------------------------------
 -- RO packets are very simple and use a 2 byte identifier. The packet structure
 -- is pre-defined on both ends based on those two bytes.
@@ -39,10 +26,34 @@ dofile("G:/dev/re/ro/dissect/login.lua")
 -- +---------+-----------------+
 --
 -- -----------------------------------------------------------------------------
+local LOGIN_PORT = 6900;
+local CHAR_PORT = 5121;
+local MAP_PORT = 6121;
 
---------------------------------------------------------------------------------
--- REGISTER
---------------------------------------------------------------------------------
---tcpt:add(5121, ro_char);
---tcpt:add(6121, ro_map);
---------------------------------------------------------------------------------
+-- Top level dissector.
+local ro = Proto("ro", "Ragnarok Online"); -- [ro]
+dissectors = DissectorTable.new("ro.port", "ro.port");
+
+-- Individual dissectors.
+dofile("RO/login.lua");
+dofile("RO/map.lua");
+dofile("RO/char.lua");
+
+-- Retrieve sub-dissectors.
+--local login_dissect = dissectors:get_dissector("login");
+--local map_dissect = dissectors:get_dissector("map");
+--local char_dissect = dissectors:get_dissector("char");
+
+--info(login_dissect);
+
+function ro.dissector(buf, pkt, tree) -- Don't dissect, let the sub-dissectors work.
+--	if pkt.cols.src_port == LOGIN_PORT and login_dissect then login_dissect(buf, pkt, tree);
+--	elseif pkt.cols.src_port == CHAR_PORT and char_dissect then char_dissect(buf, pkt, tree);
+--	elseif pkt.cols.src_port == MAP_PORT and map_dissect then map_dissect(buf, pkt, tree);
+--	end
+end
+
+local tcpt = DissectorTable.get( "tcp.port" );
+tcpt:add(LOGIN_PORT, dissectors.get_dissector(6900));
+tcpt:add(CHAR_PORT, dissectors.get_dissector(5121));
+tcpt:add(MAP_PORT, dissectors.get_dissector(6121));

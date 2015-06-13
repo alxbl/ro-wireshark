@@ -3,30 +3,19 @@ local packets = {};
 -- -----------------------------------------------------------------------------
 -- Protocol Definition ---------------------------------------------------------
 -- -----------------------------------------------------------------------------
-local ro = Proto("ro", "Login Server"); -- [ro.login]
-local f_type       = ProtoField.uint16("ro.type", "Message Type", base.HEX); table.insert(ro.fields, f_type);
-local f_payload    = ProtoField.bytes("ro.data", "Payload"); table.insert(ro.fields, f_payload);
-local f_version    = ProtoField.uint32("ro.version", "Version"); table.insert(ro.fields, f_version);
-local f_login_id   = ProtoField.uint32("ro.login_id", "Login ID"); table.insert(ro.fields, f_login_id);
-local f_login_id2  = ProtoField.uint32("ro.login_id2", "Login ID 2"); table.insert(ro.fields, f_login_id2);
-local f_account_id = ProtoField.uint32("ro.account_id", "Account ID"); table.insert(ro.fields, f_account_id);
-local f_user       = ProtoField.bytes("ro.user", "Username"), table.insert(ro.fields, f_user);
-local f_pass       = ProtoField.bytes("ro.pass", "Password"), table.insert(ro.fields, f_password);
-local f_clienttype = ProtoField.uint8("ro.client_type", "Client Type"); table.insert(ro.fields, f_clienttype);
-local f_clientip   = ProtoField.ipv6("ro.client_ip", "Client IP"); table.insert(ro.fields, f_clientip);
-local f_hwaddr     = ProtoField.ether("ro.hw_addr", "Client MAC"); table.insert(ro.fields, f_hwaddr);
-local f_servernum  = ProtoField.uint16("ro.servernum", "Server Number"); table.insert(ro.fields, f_servernum);
-local f_gender     = ProtoField.uint8("ro.gender", "Gender"); table.insert(ro.fields, f_gender);
+local ro = Proto("ro.map", "Map Server"); -- [ro.map]
+
 
 -- Dissector Entry Point -------------------------------------------------------
 function ro.dissector(buf, pkt, tree)
 	local pkt_type = 0;
-	local len = buf:len(); -- Length of the TCP payload.
+	local len = buf:len();
 	local offset = 0;
 	
 	-- Handle Packet Segmentation
 	if (len < 2) then
-		-- Need one more segment to read a PDU. Very unlikely to happen.
+		-- Need one more segment to read a PDU. Very unlikely to happen since the
+		-- implementations appear to set PSH on every packet.
 		info(string.format("Frame #%d @ %d/%d: Not enough data to read a PDU. Desegmenting one more segment.", pkt.number, offset, len));
 		pkt.desegment_len = DESEGMENT_ONE_MORE_SEGMENT
 		pkt.desegment_offset = 0
@@ -101,11 +90,17 @@ function login_auth_ok(type, buf, pkt, tree)
 
 end
 
+function void_dissect(type, buf, pkt, tree)
+	tree:append_
+end
+
 -- PACKET TABLE ----------------------------------------------------------------
 packets[0x0064] = { name = "request_login", dissect = login_connect};
 --packets[0x0277] = { name = "request_login", dissect = login_connect};
 packets[0x0069] = { name = "login_auth_ok", dissect = login_auth_ok};
 
+-- ZC
+
 -- REGISTER --------------------------------------------------------------------
 local tcpt = DissectorTable.get( "tcp.port" );
-tcpt:add(6900, ro);
+tcpt:add(6121, ro);
