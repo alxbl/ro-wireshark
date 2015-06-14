@@ -174,7 +174,7 @@ function void_d(type, buf, pkt, tree)
 end
 
 -- PACKET TABLE ----------------------------------------------------------------
--- Client connections to Login Server
+-- Client -> Login
 -- Raw Pass (Packets taken from eAthena)
 packets[0x0064] = { name = "CA_REQUEST_LOGIN_RAW", dissect = login_connect}; -- S 0064 <version>.L <username>.24B <password>.24B <clienttype>.B
 packets[0x0277] = { name = "CA_REQUEST_LOGIN_RAW", dissect = login_connect}; -- S 0277 <version>.L <username>.24B <password>.24B <clienttype>.B <ip address>.16B <adapter address>.13B
@@ -185,8 +185,9 @@ packets[0x01fa] = { name = "CA_REQUEST_LOGIN_MD5", dissect = login_connect}; -- 
 packets[0x027c] = { name = "CA_REQUEST_LOGIN_MD5", dissect = login_connect}; -- S 027c <version>.L <username>.24B <password hash>.16B <clienttype>.B <?>.13B(junk)
 packets[0x0825] = { name = "CA_REQUEST_LOGIN_MD5", dissect = login_connect}; -- S 0825 <packetsize>.W <version>.L <clienttype>.B <userid>.24B <password>.27B <mac>.17B <ip>.15B <token>.(packetsize - 0x5C)B
 
+packets[0x0204] = { name = "CA_EXE_HASHCHECK", dissect = void_d };
 
--- Login Server Replies
+-- Login -> Client
 packets[0x0069] = { name = "AC_ACCEPT_LOGIN", dissect = login_auth_ok};
 packets[0x0081] = { name = "AC_REFUSE_LOGIN", dissect = login_failed}; -- Login Error
 packets[0x006a] = { name = "AC_REFUSE_LOGIN", dissect = login_failed}; -- Refuse Login
