@@ -57,11 +57,11 @@ packets[0x03dd] = { name = "AHC_GAME_GUARD", dissect = void_d };
 packets[0x03de] = { name = "CAH_ACK_GAME_GUARD", dissect = void_d };
 
 -- Client -> Char
-packets[0x0065] = { name = "CH_ENTER", dissect = void_d };
+packets[0x0065] = { name = "CH_ENTER", dissect = void_d }; -- Returns account ID.
 packets[0x0066] = { name = "CH_SELECT_CHAR", dissect = void_d };
 packets[0x0067] = { name = "CH_MAKE_CHAR", dissect = void_d };
 packets[0x0068] = { name = "CH_DELETE_CHAR", dissect = void_d };
-packets[0x09a1] = { name = "CH_KEEP_ALIVE", dissect = void_d };
+packets[0x09a1] = { name = "CH_REQ_CHARLIST", dissect = void_d };
 
 -- Char -> Client
 packets[0x006b] = { name = "HC_ACCEPT_ENTER_NEO_UNION", dissect = void_d };
