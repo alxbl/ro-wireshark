@@ -52,6 +52,34 @@ function void_d(type, buf, pkt, tree)
 end
 
 -- PACKET TABLE ----------------------------------------------------------------
+-- Game Guard
+packets[0x03dd] = { name = "AHC_GAME_GUARD", dissect = void_d };
+packets[0x03de] = { name = "CAH_ACK_GAME_GUARD", dissect = void_d };
+
+-- Char Server Specific
+packets[0x006b] = { name = "HC_ACCEPT_ENTER_NEO_UNION", dissect = void_d };
+packets[0x006c] = { name = "HC_REFUSE_ENTER", dissect = void_d };
+packets[0x006d] = { name = "HC_ACCEPT_MAKECHAR_NEO_UNION", dissect = void_d };
+packets[0x006e] = { name = "HC_REFUSE_MAKECHAR", dissect = void_d };
+packets[0x006f] = { name = "HC_ACCEPT_DELETECHAR", dissect = void_d };
+packets[0x0070] = { name = "HC_REFUSE_DELETECHAR", dissect = void_d };
+packets[0x0071] = { name = "HC_NOTIFY_ZONESVR", dissect = void_d };
+packets[0x0187] = { name = "HC_PING", dissect = void_d };
+packets[0x020d] = { name = "HC_BLOCK_CHARACTER", dissect = void_d };
+packets[0x023e] = { name = "HC_REQUEST_CHARACTER_PASSWORD", dissect = void_d };
+packets[0x02ca] = { name = "HC_REFUSE_SELECTCHAR", dissect = void_d };
+packets[0x0448] = { name = "HC_CHARACTER_LIST", dissect = void_d };
+packets[0x07e8] = { name = "HC_CHECKBOT", dissect = void_d };
+packets[0x07e9] = { name = "HC_CHECKBOT_RESULT", dissect = void_d };
+packets[0x028e] = { name = "HC_ACK_IS_VALID_CHARNAME", dissect = void_d };
+packets[0x0290] = { name = "HC_ACK_CHANGE_CHARNAME", dissect = void_d };
+packets[0x0828] = { name = "HC_DELETE_CHAR3_RESERVED", dissect = void_d };
+packets[0x082a] = { name = "HC_DELETE_CHAR3", dissect = void_d };
+packets[0x082c] = { name = "HC_DELETE_CHAR3_CANCEL", dissect = void_d };
+packets[0x082d] = { name = "HC_ACCEPT_ENTER_NEO_UNION_HEADER", dissect = void_d };
+packets[0x0840] = { name = "HC_NOTIFY_ACCESSIBLE_MAPNAME", dissect = void_d };
+packets[0x099d] = { name = "HC_ACCEPT_ENTER_NEO_UNION_LIST", dissect = void_d };
+packets[0x09a0] = { name = "HC_CHARLIST_NOTIFY", dissect = void_d };
 -- REGISTER --------------------------------------------------------------------
 local d = DissectorTable.get( "ro.port" );
 d:add(6121, ro);

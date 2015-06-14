@@ -55,5 +55,6 @@ end
 
 local tcpt = DissectorTable.get( "tcp.port" );
 tcpt:add(LOGIN_PORT, dissectors:get_dissector(6900));
+tcpt:add(LOGIN_PORT+1, dissectors:get_dissector(6900));
 tcpt:add(CHAR_PORT, dissectors:get_dissector(6121));
 tcpt:add(MAP_PORT, dissectors:get_dissector(5121));
