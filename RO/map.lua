@@ -750,6 +750,7 @@ packets[0x0858] = { name = "ZC_NOTIFY_STANDENTRY6", dissect = void_d };
 packets[0x0859] = { name = "ZC_EQUIPWIN_MICROSCOPE2", dissect = void_d };
 packets[0x08c7] = { name = "ZC_SKILL_ENTRY3", dissect = void_d };
 packets[0x08c8] = { name = "ZC_NOTIFY_ACT3", dissect = void_d };
+packets[0x08c9] = { name = "ZC_REQ_CASHSHOPLIST", dissect = void_d };
 packets[0x08d0] = { name = "ZC_REQ_WEAR_EQUIP_ACK2", dissect = void_d };
 packets[0x08d1] = { name = "ZC_REQ_TAKEOFF_EQUIP_ACK2", dissect = void_d };
 packets[0x08d2] = { name = "ZC_FASTMOVE", dissect = void_d };
